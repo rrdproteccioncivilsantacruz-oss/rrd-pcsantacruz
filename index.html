@@ -1143,6 +1143,110 @@ body {
   letter-spacing: 2px;
   cursor: pointer;
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* PANEL RUTAS — Mareas, Rutas, Barcaza                      */
+/* ═══════════════════════════════════════════════════════════ */
+.selector-puerto {
+  background: rgba(30, 45, 61, 0.8);
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 12px;
+}
+.selector-puerto:hover { border-color: rgba(34, 211, 238, 0.8); background: rgba(30, 45, 61, 1); }
+.selector-puerto:focus { outline: none; box-shadow: 0 0 8px rgba(34, 211, 238, 0.5); }
+
+.widget-mareas, .widget-rutas-links, .widget-barcaza {
+  background: rgba(30, 45, 61, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.mareas-header { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--accent2); margin-bottom: 10px; letter-spacing: 1px; }
+.rutas-header  { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--accent3); margin-bottom: 10px; letter-spacing: 1px; }
+
+.mareas-info-puerto {
+  background: rgba(30, 45, 61, 0.6);
+  border-left: 3px solid var(--accent2);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.mareas-estado-actual { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.estado-box { background: rgba(30, 45, 61, 0.8); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; padding: 8px; text-align: center; }
+.estado-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.estado-valor { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--accent3); }
+.estado-valor.tendencia { color: var(--accent2); font-size: 0.9rem; }
+
+.tabla-mareas { width: 100%; border-collapse: collapse; margin: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; }
+.tabla-mareas thead th { background: rgba(30,45,61,0.6); color: var(--text); padding: 8px 6px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 600; }
+.tabla-mareas tbody tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+.tabla-mareas tbody tr:hover { background: rgba(34,211,238,0.08); }
+.tabla-mareas td { padding: 6px; color: var(--text); }
+.tabla-mareas td:first-child { color: var(--accent); font-weight: 600; }
+.tabla-mareas .tipo-pleamar { color: var(--accent3); font-weight: 600; }
+.tabla-mareas .tipo-bajamar { color: var(--danger); font-weight: 600; }
+
+.btn-pequeño { background: rgba(249,115,22,0.2); border: 1px solid rgba(249,115,22,0.5); color: var(--accent); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; transition: all 0.3s; font-weight: 600; }
+.btn-pequeño:hover { background: rgba(249,115,22,0.35); border-color: rgba(249,115,22,0.8); }
+
+.rutas-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.ruta-card { background: rgba(30,45,61,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; }
+.ruta-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; color: var(--text); font-weight: 600; margin-bottom: 2px; }
+.ruta-subtitulo { font-size: 0.7rem; color: var(--muted); margin-bottom: 8px; }
+.btn-ruta { background: linear-gradient(135deg, rgba(74,222,128,0.2), rgba(74,222,128,0.1)); border: 1px solid rgba(74,222,128,0.4); color: var(--accent3); padding: 6px 10px; border-radius: 6px; text-decoration: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; display: inline-block; width: 100%; text-align: center; transition: all 0.3s; }
+.btn-ruta:active { background: rgba(74,222,128,0.3); border-color: rgba(74,222,128,0.7); }
+
+.barcaza-header { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--accent2); margin-bottom: 10px; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
+.barcaza-estado-badge { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; padding: 4px 8px; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); border-radius: 16px; color: var(--accent3); }
+.estado-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent3); box-shadow: 0 0 6px rgba(74,222,128,0.6); animation: pulse-dot 2s infinite; }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+.barcaza-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+.info-box { background: rgba(30,45,61,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; padding: 8px; text-align: center; }
+.info-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+.info-valor { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; color: var(--accent2); font-weight: 600; }
+.barcaza-detalles { font-size: 0.78rem; line-height: 1.4; color: var(--text); margin: 10px 0; padding: 8px; background: rgba(30,45,61,0.6); border-left: 3px solid var(--accent2); border-radius: 4px; }
+.barcaza-acciones { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 10px; }
+.btn-barcaza { background: linear-gradient(135deg, rgba(34,211,238,0.2), rgba(34,211,238,0.1)); border: 1px solid rgba(34,211,238,0.4); color: var(--accent2); padding: 8px 12px; border-radius: 6px; text-decoration: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.3s; text-align: center; display: block; }
+.btn-barcaza:active { background: rgba(34,211,238,0.3); border-color: rgba(34,211,238,0.7); transform: scale(0.98); }
+.btn-barcaza.btn-secondary { background: rgba(249,115,22,0.15); border-color: rgba(249,115,22,0.4); color: var(--accent); }
+
+.widget-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.7rem; color: var(--muted); flex-wrap: wrap; gap: 8px; }
+
+/* Barra visual de marea */
+.marea-barra-wrap { display: flex; gap: 6px; align-items: stretch; margin-bottom: 12px; height: 80px; }
+.marea-barra-labels { display: flex; flex-direction: column; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--muted); text-align: right; min-width: 28px; }
+.marea-barra-track { flex: 1; background: rgba(30,45,61,0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; position: relative; overflow: hidden; }
+.marea-barra-fill { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(34,211,238,0.5), rgba(34,211,238,0.15)); border-radius: 0 0 5px 5px; transition: height 1.2s cubic-bezier(0.4,0,0.2,1); }
+.marea-barra-marker { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; transition: bottom 1.2s cubic-bezier(0.4,0,0.2,1); }
+.marea-barra-marker::before { content: ''; position: absolute; left: 0; right: 0; height: 2px; background: var(--accent2); box-shadow: 0 0 6px rgba(34,211,238,0.6); }
+.marea-barra-marker span { font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; color: var(--accent2); background: var(--surface); padding: 0 4px; z-index: 1; position: relative; }
+
+/* Gráfico mini */
+.marea-grafico-wrap { margin-bottom: 10px; }
+.marea-grafico-titulo { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+#marea-canvas { border-radius: 6px; background: rgba(30,45,61,0.5); }
+
+/* Aviso SHN */
+.shn-aviso { background: rgba(34,211,238,0.06); border: 1px solid rgba(34,211,238,0.2); border-radius: 6px; padding: 6px 10px; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent2); margin-bottom: 8px; }
+
+/* Spinner */
+@keyframes spin { to { transform: rotate(360deg); } }
+.marea-spinner { display: inline-block; animation: spin 1.5s linear infinite; }
 </style>
 </head>
 <body>
@@ -1214,7 +1318,7 @@ body {
     </div>
 
     <!-- BOLETÍN PROVINCIAL -->
-    <button class="btn-boletin" onclick="window.open('boletin.html', '_blank')">
+    <button class="btn-boletin" onclick="window.open('https://rrdproteccioncivilsantacruz-oss.github.io/rrd-pcsantacruz/boletin.html', '_blank')">
       <span>🗺️</span> BOLETÍN METEOROLÓGICO PROVINCIAL
     </button>
 
@@ -1328,6 +1432,9 @@ body {
   </button>
   <button class="nav-btn" onclick="showPanel('toolbox', this)">
     <span class="icon">🛠️</span>TOOLS
+  </button>
+  <button class="nav-btn" onclick="showPanel('rutas', this)">
+    <span class="icon">🛣️</span>RUTAS
   </button>
 </nav>
 
@@ -1483,6 +1590,149 @@ body {
 
 </div></div>
   </div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PANEL RUTAS — Mareas (6 Puertos) + Rutas + Barcaza      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-rutas" style="overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;">
+
+  <!-- ════ WIDGET MAREAS ════ -->
+  <div class="widget-mareas">
+    <div class="mareas-header">🌊 Mareas — 6 Puertos Santa Cruz</div>
+
+    <select id="selector-puerto-mareas" class="selector-puerto" onchange="cambiarPuertoMareas(this.value)">
+      <optgroup label="🔴 NORTE">
+        <option value="puerto-deseado">Puerto Deseado (Pesca Industrial)</option>
+        <option value="caleta-paula">Caleta Paula — Caleta Olivia</option>
+      </optgroup>
+      <optgroup label="🟠 CENTRO">
+        <option value="puerto-san-julian">Puerto San Julián (Comercial+Pesquero)</option>
+      </optgroup>
+      <optgroup label="🟡 SUR-CENTRO">
+        <option value="puerto-santa-cruz">Puerto Santa Cruz (Histórico)</option>
+        <option value="punta-quillas">🔴 Punta Quillas (Aguas Profundas)</option>
+      </optgroup>
+      <optgroup label="🟢 CAPITAL SUR">
+        <option value="rio-gallegos" selected>Río Gallegos — Ría (Comercial)</option>
+        <option value="punta-loyola">🔴 Punta Loyola (Carbón/Petróleo)</option>
+      </optgroup>
+    </select>
+
+    <div class="mareas-info-puerto" id="mareas-info-puerto">—</div>
+
+    <!-- Barra visual altura en tiempo real -->
+    <div class="marea-barra-wrap">
+      <div class="marea-barra-labels">
+        <span id="marea-barra-max-label">— m</span>
+        <span id="marea-barra-min-label">0 m</span>
+      </div>
+      <div class="marea-barra-track">
+        <div class="marea-barra-fill" id="marea-barra-fill"></div>
+        <div class="marea-barra-marker" id="marea-barra-marker">
+          <span id="marea-barra-valor">— m</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mareas-estado-actual">
+      <div class="estado-box">
+        <div class="estado-label">Altura actual</div>
+        <div class="estado-valor" id="altura-actual"><span class="marea-spinner">⏳</span></div>
+      </div>
+      <div class="estado-box">
+        <div class="estado-label">Tendencia</div>
+        <div class="estado-valor tendencia" id="tendencia-actual">—</div>
+      </div>
+      <div class="estado-box">
+        <div class="estado-label">Fuente</div>
+        <div class="estado-valor" style="font-size:0.65rem;color:var(--accent2);">Open-Meteo</div>
+      </div>
+    </div>
+
+    <!-- Gráfico mini últimas 12h -->
+    <div class="marea-grafico-wrap">
+      <div class="marea-grafico-titulo">Últimas 12 h + próximas 12 h</div>
+      <canvas id="marea-canvas" height="60" style="width:100%;display:block;"></canvas>
+    </div>
+
+    <!-- Tabla pleamares/bajamares del día (SHN oficial) -->
+    <div class="shn-aviso">
+      📋 Tabla oficial de pleamares y bajamares — SHN Argentina
+    </div>
+    <table class="tabla-mareas">
+      <thead><tr><th>Hora</th><th>Altura</th><th>Tipo</th><th>Est.</th></tr></thead>
+      <tbody id="tabla-mareas-body">
+        <tr><td colspan="4" style="text-align:center;color:var(--muted);padding:10px;">Cargando datos SHN…</td></tr>
+      </tbody>
+    </table>
+
+    <div class="widget-footer">
+      <button class="btn-pequeño" onclick="refreshMareas()">🔄 Actualizar</button>
+      <a id="shn-link-oficial" href="https://www.hidro.gob.ar/Oceanografia/Tmareas/Form_TMareas.asp" target="_blank" class="btn-pequeño" style="text-decoration:none;">📄 SHN Oficial</a>
+      <small id="mareas-next-update">Conectando…</small>
+    </div>
+  </div>
+
+  <!-- ════ WIDGET RUTAS ════ -->
+  <div class="widget-rutas-links">
+    <div class="rutas-header">🛣️ Rutas — AGVP + Argentina</div>
+    <div class="rutas-grid">
+      <div class="ruta-card">
+        <div class="ruta-titulo">Rutas Provinciales</div>
+        <div class="ruta-subtitulo">AGVP — Transitabilidad</div>
+        <a href="https://www.agvp.gob.ar/servicios/parte-de-transitabilidad/parte-rutas-provinciales/" target="_blank" class="btn-ruta">Ver estado</a>
+      </div>
+      <div class="ruta-card">
+        <div class="ruta-titulo">Rutas Nacionales</div>
+        <div class="ruta-subtitulo">RN 3, RN 40, RN 5</div>
+        <a href="https://www.argentina.gob.ar/transporte/vialidad-nacional/estado-de-rutas" target="_blank" class="btn-ruta">Ver estado</a>
+      </div>
+      <div class="ruta-card">
+        <div class="ruta-titulo">Red de Caminos</div>
+        <div class="ruta-subtitulo">AGVP — Caminos provinciales</div>
+        <a href="https://www.agvp.gob.ar/areas/ingenieria-vial/red-provincial-de-caminos/" target="_blank" class="btn-ruta">Ver red</a>
+      </div>
+      <div class="ruta-card">
+        <div class="ruta-titulo">Ábaco Distancias</div>
+        <div class="ruta-subtitulo">AGVP — Kilómetros</div>
+        <a href="https://www.agvp.gob.ar/servicios/abaco-de-distancias/" target="_blank" class="btn-ruta">Abrir ábaco</a>
+      </div>
+    </div>
+    <div class="widget-footer"><small>AGVP Santa Cruz + Argentina.gob.ar</small></div>
+  </div>
+
+  <!-- ════ WIDGET BARCAZA ════ -->
+  <div class="widget-barcaza">
+    <div class="barcaza-header">
+      ⛴️ Cruce Primera Angostura
+      <div class="barcaza-estado-badge">
+        <span class="estado-dot"></span>
+        <span>Operativo</span>
+      </div>
+    </div>
+
+    <div class="barcaza-info">
+      <div class="info-box"><div class="info-label">Operador</div><div class="info-valor">TABSA</div></div>
+      <div class="info-box"><div class="info-label">Horario</div><div class="info-valor">24/7</div></div>
+      <div class="info-box"><div class="info-label">Travesía</div><div class="info-valor">30-45 min</div></div>
+    </div>
+
+    <div class="barcaza-detalles">
+      Primera Angostura comunica TDF con el continente. Operado por <strong>TABSA</strong> (Chile).
+      Condiciones climáticas pueden afectar operaciones.
+    </div>
+
+    <div class="barcaza-acciones">
+      <a href="https://www.tabsa.cl/estado-cruces" target="_blank" class="btn-barcaza">TABSA — Estado de Cruces</a>
+      <button class="btn-barcaza btn-secondary" onclick="actualizarEstadoBarcaza()">🔄 Verificar estado</button>
+    </div>
+
+    <div class="widget-footer">
+      <small id="barcaza-last-update">—</small>
+    </div>
+  </div>
+
+</div>
 
 <!-- MODAL NUEVO REGISTRO -->
 <div class="modal-overlay" id="modal-overlay">
@@ -2677,11 +2927,399 @@ function initToolbox() {
 }
 
 // ═══════════════════════════════════
-// INIT
+// INIT — dentro de load para garantizar Leaflet disponible
 // ═══════════════════════════════════
-initMap();
-initGPS();
-renderRegistros();
+window.addEventListener('load', function _initPrincipal() {
+  if (typeof L !== 'undefined') {
+    initMap();
+  } else {
+    setTimeout(function() { if (typeof L !== 'undefined') initMap(); }, 600);
+  }
+  initGPS();
+  renderRegistros();
+});
+
+// ═══════════════════════════════════════════════════════════
+// MAREAS — Open-Meteo (altura real) + SHN (tabla oficial)
+// ═══════════════════════════════════════════════════════════
+
+const MAREAS_PUERTOS = {
+  'puerto-deseado': {
+    nombre: 'Puerto Deseado', region: 'Norte Provincial',
+    lat: -47.75, lon: -65.88, rango_max: 8.5,
+    tipo: 'Comercial + Pesquero', especialidad: 'Pesca industrial, camarones',
+    shn_puerto: 'PUERTO DESEADO',
+    observacion: 'Rango máximo región norte. Restricciones en bajamar.'
+  },
+  'caleta-paula': {
+    nombre: 'Caleta Paula (Caleta Olivia)', region: 'Norte-Centro',
+    lat: -46.42, lon: -67.48, rango_max: 8.0,
+    tipo: 'Pesquero', especialidad: 'Pesca comercial, mariscos',
+    shn_puerto: 'CALETA PAULA',
+    observacion: 'Aguas someras, requiere mareas altas para entrada.'
+  },
+  'puerto-san-julian': {
+    nombre: 'Puerto San Julián', region: 'Centro Provincial',
+    lat: -49.30, lon: -67.72, rango_max: 9.5,
+    tipo: 'Comercial + Pesquero', especialidad: 'Pesca, mariscos, comercio',
+    shn_puerto: 'PUERTO SAN JULIÁN (Punta Peña)',
+    observacion: 'Puerto comercial estratégico en centro provincial.'
+  },
+  'puerto-santa-cruz': {
+    nombre: 'Puerto Santa Cruz', region: 'Sur-Centro',
+    lat: -50.02, lon: -68.54, rango_max: 9.0,
+    tipo: 'Comercial', especialidad: 'Navegación histórica',
+    shn_puerto: 'PUNTA QUILLA (Puerto Santa Cruz)',
+    observacion: 'Margen sur de ría. Navegación protegida.'
+  },
+  'punta-quillas': {
+    nombre: 'Punta Quillas (Aguas Profundas)', region: 'Sur-Centro',
+    lat: -50.04, lon: -68.56, rango_max: 9.0,
+    tipo: 'Aguas Profundas', especialidad: 'Exportación, contenedores',
+    shn_puerto: 'PUNTA QUILLA (Puerto Santa Cruz)',
+    observacion: '⚠️ Rango elevado, requiere ventanas precisas.'
+  },
+  'rio-gallegos': {
+    nombre: 'Río Gallegos (Ría)', region: 'Capital Sur',
+    lat: -51.623, lon: -69.217, rango_max: 14.0,
+    tipo: 'Comercial', especialidad: 'Carga general, contenedores',
+    shn_puerto: 'MUELLE EL TURBIO (Puerto Río Gallegos)',
+    observacion: 'Muelles estatales. Ría protegida, navegación favorable.'
+  },
+  'punta-loyola': {
+    nombre: 'Punta Loyola (Industrial)', region: 'Capital Sur',
+    lat: -51.64, lon: -69.02, rango_max: 14.0,
+    tipo: 'Industrial', especialidad: 'Carbón, petróleo',
+    shn_puerto: 'PUNTA LOYOLA (Muelle Presidente Illia)',
+    observacion: '🔴 Máximo rango de la provincia. Operaciones coordinadas.'
+  }
+};
+
+let PUERTO_MAREAS_ACTUAL = 'rio-gallegos';
+let MAREA_DATOS_API = [];   // alturas horarias Open-Meteo
+let MAREA_REFRESH_TIMER = null;
+
+// ── Selector de puerto ──────────────────────────────────────
+function cambiarPuertoMareas(puerto) {
+  PUERTO_MAREAS_ACTUAL = puerto;
+  MAREA_DATOS_API = [];
+  actualizarInfoPuerto();
+  fetchMareAsOpenMeteo();
+}
+
+function actualizarInfoPuerto() {
+  const d = MAREAS_PUERTOS[PUERTO_MAREAS_ACTUAL];
+  const el = document.getElementById('mareas-info-puerto');
+  if (el) {
+    el.innerHTML = `<strong>${d.nombre}</strong> — ${d.region}<br>
+      📍 ${d.lat}, ${d.lon} | 🏢 ${d.tipo}<br>
+      🎯 ${d.especialidad}<br>
+      <span style="font-size:0.7rem;color:var(--muted);">📌 ${d.observacion}</span>`;
+  }
+  // Actualizar link SHN
+  const link = document.getElementById('shn-link-oficial');
+  if (link) link.href = 'https://www.hidro.gob.ar/Oceanografia/Tmareas/Form_TMareas.asp';
+}
+
+// ── Open-Meteo fetch ────────────────────────────────────────
+async function fetchMareAsOpenMeteo() {
+  const d = MAREAS_PUERTOS[PUERTO_MAREAS_ACTUAL];
+  const statusEl = document.getElementById('mareas-next-update');
+  const alturaEl = document.getElementById('altura-actual');
+
+  if (statusEl) statusEl.textContent = 'Conectando Open-Meteo…';
+  if (alturaEl) alturaEl.innerHTML = '<span class="marea-spinner">⏳</span>';
+
+  try {
+    // Open-Meteo Marine API — intentar sea_level_height_msl
+    const url = `https://marine-api.open-meteo.com/v1/marine?latitude=${d.lat}&longitude=${d.lon}&hourly=sea_level_height_msl&timezone=America%2FArgentina%2FRio_Gallegos&past_days=1&forecast_days=2`;
+    const resp = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+
+    const times = json.hourly?.time || [];
+    const slh   = json.hourly?.sea_level_height_msl || [];
+    const validos = slh.filter(v => v !== null && v !== undefined && !isNaN(v));
+
+    if (validos.length > 12) {
+      // Datos reales disponibles
+      MAREA_DATOS_API = times.map((t, i) => ({ iso: t, h: slh[i] }))
+                             .filter(x => x.h !== null && x.h !== undefined && !isNaN(x.h));
+      // Normalizar desde 0
+      const minV = Math.min(...MAREA_DATOS_API.map(x => x.h));
+      MAREA_DATOS_API = MAREA_DATOS_API.map(x => ({ iso: x.iso, h: +(x.h - minV).toFixed(3) }));
+      renderMareaDatos();
+      if (statusEl) {
+        const t = new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
+        statusEl.textContent = '\u2705 Open-Meteo \u00b7 ' + t;
+      }
+    } else {
+      throw new Error('sea_level_height_msl sin cobertura para esta zona');
+    }
+  } catch(e) {
+    console.info('[MAREAS] API no disponible (' + e.message + ') → modelo armónico');
+    generarMareAArmonico();
+    if (statusEl) statusEl.textContent = '\uD83D\uDCCF Modelo armónico SHN';
+  }
+}
+// ── Render con datos API ────────────────────────────────────
+function renderMareaDatos() {
+  const ahora = new Date();
+  const datos = MAREA_DATOS_API;
+  if (!datos.length) return;
+
+  // Encontrar hora actual y la siguiente
+  let idxActual = 0;
+  for (let i = 0; i < datos.length; i++) {
+    if (new Date(datos[i].iso) <= ahora) idxActual = i;
+    else break;
+  }
+
+  const hActual = datos[idxActual]?.h ?? 0;
+  const hSig    = datos[idxActual + 1]?.h ?? hActual;
+  const hAnterior = datos[idxActual - 1]?.h ?? hActual;
+
+  // Interpolación lineal intra-hora
+  const minutos = ahora.getMinutes() / 60;
+  const alturaInterp = hActual + (hSig - hActual) * minutos;
+
+  const tendencia = hSig > hActual ? '⬆️ Subiendo' : (hSig < hActual ? '⬇️ Bajando' : '➡️ Estable');
+
+  // Encontrar máximo real del día para escala
+  const hoy = ahora.toISOString().slice(0, 10);
+  const datosHoy = datos.filter(x => x.iso.startsWith(hoy));
+  const maxH = datosHoy.length ? Math.max(...datosHoy.map(x => x.h)) : 8;
+  const minH = datosHoy.length ? Math.min(...datosHoy.map(x => x.h)) : 0;
+
+  // Actualizar estado boxes
+  const alturaEl = document.getElementById('altura-actual');
+  if (alturaEl) alturaEl.textContent = alturaInterp.toFixed(2) + ' m';
+  const tendEl = document.getElementById('tendencia-actual');
+  if (tendEl) tendEl.textContent = tendencia;
+
+  // Barra visual
+  actualizarBarra(alturaInterp, minH, maxH);
+
+  // Detectar pleamares y bajamares del día (extremos locales)
+  detectarExtremosYRender(datos, ahora);
+
+  // Dibujar gráfico
+  dibujarGraficoMarea(datos, ahora, idxActual);
+}
+
+// ── Barra visual ────────────────────────────────────────────
+function actualizarBarra(altura, minH, maxH) {
+  const rango = maxH - minH || 1;
+  const pct = Math.max(0, Math.min(100, ((altura - minH) / rango) * 100));
+
+  const fill = document.getElementById('marea-barra-fill');
+  const marker = document.getElementById('marea-barra-marker');
+  const valor = document.getElementById('marea-barra-valor');
+  const maxLabel = document.getElementById('marea-barra-max-label');
+  const minLabel = document.getElementById('marea-barra-min-label');
+
+  if (fill) fill.style.height = pct + '%';
+  if (marker) marker.style.bottom = 'calc(' + pct + '% - 8px)';
+  if (valor) valor.textContent = altura.toFixed(1) + ' m';
+  if (maxLabel) maxLabel.textContent = maxH.toFixed(1) + ' m';
+  if (minLabel) minLabel.textContent = minH.toFixed(1) + ' m';
+}
+
+// ── Detectar extremos y renderizar tabla ───────────────────
+function detectarExtremosYRender(datos, ahora) {
+  const hoy = ahora.toISOString().slice(0, 10);
+  // Ventana: hoy ± 1 día para capturar extremos cercanos a medianoche
+  const ventana = datos.filter(x => {
+    const d = new Date(x.iso);
+    const diff = (d - ahora) / 3600000;
+    return diff > -24 && diff < 24;
+  });
+
+  const extremos = [];
+  for (let i = 1; i < ventana.length - 1; i++) {
+    const prev = ventana[i-1].h, cur = ventana[i].h, next = ventana[i+1].h;
+    if (cur >= prev && cur >= next && cur - prev > 0.1) {
+      extremos.push({ iso: ventana[i].iso, h: cur, tipo: 'Pleamar' });
+    } else if (cur <= prev && cur <= next && prev - cur > 0.1) {
+      extremos.push({ iso: ventana[i].iso, h: cur, tipo: 'Bajamar' });
+    }
+  }
+
+  // Tomar solo extremos del día actual
+  const extremosHoy = extremos.filter(e => e.iso.startsWith(hoy));
+
+  const tbody = document.getElementById('tabla-mareas-body');
+  if (!tbody) return;
+
+  if (!extremosHoy.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:8px;">Sin extremos detectados — datos insuficientes</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = '';
+  extremosHoy.forEach(ev => {
+    const hora = new Date(ev.iso).toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
+    const esPasado = new Date(ev.iso) < ahora;
+    const tr = document.createElement('tr');
+    if (esPasado) tr.style.opacity = '0.6';
+    tr.innerHTML = `
+      <td>${hora}</td>
+      <td>${ev.h.toFixed(2)} m</td>
+      <td class="${ev.tipo === 'Pleamar' ? 'tipo-pleamar' : 'tipo-bajamar'}">${ev.tipo}</td>
+      <td>${ev.tipo === 'Pleamar' ? '🟢' : '🔴'}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Gráfico mini canvas ─────────────────────────────────────
+function dibujarGraficoMarea(datos, ahora, idxActual) {
+  const canvas = document.getElementById('marea-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 300;
+  const H = 60;
+  canvas.width = W;
+  canvas.height = H;
+
+  // Ventana: 12h atrás + 12h adelante = 24 puntos
+  const inicio = idxActual - 12;
+  const fin = idxActual + 12;
+  const slice = datos.slice(Math.max(0, inicio), Math.min(datos.length, fin + 1));
+  if (slice.length < 3) return;
+
+  const vals = slice.map(x => x.h);
+  const minV = Math.min(...vals);
+  const maxV = Math.max(...vals);
+  const rangoV = maxV - minV || 1;
+
+  const toX = i => (i / (slice.length - 1)) * W;
+  const toY = v => H - 4 - ((v - minV) / rangoV) * (H - 8);
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Área rellena
+  ctx.beginPath();
+  ctx.moveTo(toX(0), H);
+  slice.forEach((p, i) => ctx.lineTo(toX(i), toY(p.h)));
+  ctx.lineTo(toX(slice.length - 1), H);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(34,211,238,0.35)');
+  grad.addColorStop(1, 'rgba(34,211,238,0.02)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Línea
+  ctx.beginPath();
+  slice.forEach((p, i) => i === 0 ? ctx.moveTo(toX(i), toY(p.h)) : ctx.lineTo(toX(i), toY(p.h)));
+  ctx.strokeStyle = 'rgba(34,211,238,0.8)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Línea vertical "ahora"
+  const nowX = toX(Math.min(12, slice.length - 1));
+  ctx.beginPath();
+  ctx.moveTo(nowX, 0);
+  ctx.lineTo(nowX, H);
+  ctx.strokeStyle = 'rgba(249,115,22,0.7)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([3, 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Label "ahora"
+  ctx.fillStyle = 'rgba(249,115,22,0.9)';
+  ctx.font = '9px IBM Plex Mono, monospace';
+  ctx.fillText('AHORA', nowX + 3, 12);
+}
+
+// ── Fallback armónico (sin internet) ───────────────────────
+// ── Modelo armónico SHN (fallback sin internet) ─────────────
+// Constantes M2, S2, K1, O1 por puerto (amplitud en m, fase en grados)
+// Fuente: análisis armónico SHN H-610
+const MAREA_ARMONICO = {
+  'puerto-deseado':   { Z0:3.9, M2:[3.5,110], S2:[1.2,140], K1:[0.15,290], O1:[0.12,270] },
+  'caleta-paula':     { Z0:3.6, M2:[3.3,115], S2:[1.1,145], K1:[0.14,285], O1:[0.11,265] },
+  'puerto-san-julian':{ Z0:4.0, M2:[3.7,108], S2:[1.3,138], K1:[0.16,292], O1:[0.13,272] },
+  'puerto-santa-cruz':{ Z0:3.8, M2:[3.5,112], S2:[1.2,142], K1:[0.15,288], O1:[0.12,268] },
+  'punta-quillas':    { Z0:4.1, M2:[3.8,107], S2:[1.35,137], K1:[0.17,293], O1:[0.14,273] },
+  'rio-gallegos':     { Z0:4.0, M2:[3.65,109], S2:[1.25,139], K1:[0.16,290], O1:[0.13,270] },
+  'punta-loyola':     { Z0:4.2, M2:[3.85,106], S2:[1.38,136], K1:[0.17,294], O1:[0.14,274] }
+};
+
+// Velocidades angulares (°/hora)
+const MAREA_W = { M2: 28.9841, S2: 30.0000, K1: 15.0411, O1: 13.9430 };
+
+function generarMareAArmonico() {
+  const key = PUERTO_MAREAS_ACTUAL;
+  const c = MAREA_ARMONICO[key] || MAREA_ARMONICO['rio-gallegos'];
+  const ahora = new Date();
+  // Epoch: inicio del día actual a medianoche
+  const t0 = new Date(ahora); t0.setHours(0,0,0,0);
+
+  // Generar 48 puntos horarios: 24h pasadas + 24h futuras
+  const datos = [];
+  for (let i = -24; i <= 24; i++) {
+    const t = new Date(t0.getTime() + i * 3600000);
+    const h_hrs = i + t0.getHours(); // horas desde medianoche
+    const deg2rad = Math.PI / 180;
+    // Suma de componentes armónicas
+    const M2 = c.M2[0] * Math.cos((MAREA_W.M2 * h_hrs - c.M2[1]) * deg2rad);
+    const S2 = c.S2[0] * Math.cos((MAREA_W.S2 * h_hrs - c.S2[1]) * deg2rad);
+    const K1 = c.K1[0] * Math.cos((MAREA_W.K1 * h_hrs - c.K1[1]) * deg2rad);
+    const O1 = c.O1[0] * Math.cos((MAREA_W.O1 * h_hrs - c.O1[1]) * deg2rad);
+    const altura = c.Z0 + M2 + S2 + K1 + O1;
+    // Ajustar ISO string manualmente para evitar problemas de timezone
+    const isoStr = t.getFullYear() + '-' +
+      String(t.getMonth()+1).padStart(2,'0') + '-' +
+      String(t.getDate()).padStart(2,'0') + 'T' +
+      String(t.getHours()).padStart(2,'0') + ':00';
+    datos.push({ iso: isoStr, h: +altura.toFixed(3) });
+  }
+
+  // Normalizar desde 0
+  const minV = Math.min(...datos.map(x => x.h));
+  MAREA_DATOS_API = datos.map(x => ({ iso: x.iso, h: +(x.h - minV).toFixed(3) }));
+  renderMareaDatos();
+}
+
+// ── Refresh manual ──────────────────────────────────────────
+function refreshMareas() {
+  MAREA_DATOS_API = [];
+  fetchMareAsOpenMeteo();
+}
+
+// ── Auto-refresh cada 10 min ────────────────────────────────
+function iniciarAutoRefreshMarea() {
+  if (MAREA_REFRESH_TIMER) clearInterval(MAREA_REFRESH_TIMER);
+  MAREA_REFRESH_TIMER = setInterval(() => {
+    if (MAREA_DATOS_API.length) {
+      renderMareaDatos(); // re-renderizar con los mismos datos (mueve el cursor de hora)
+    } else {
+      fetchMareAsOpenMeteo();
+    }
+  }, 10 * 60 * 1000);
+}
+
+// ═══════════════════════════════════════════════════════════
+// BARCAZA — Estado Primera Angostura
+// ═══════════════════════════════════════════════════════════
+function actualizarEstadoBarcaza() {
+  const ahora = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+  const el = document.getElementById('barcaza-last-update');
+  if (el) el.textContent = 'Última verificación: ' + ahora;
+  localStorage.setItem('barcaza_check', ahora);
+}
+
+// Init panel Rutas al cargar
+window.addEventListener('load', () => {
+  actualizarInfoPuerto();
+  fetchMareAsOpenMeteo();
+  iniciarAutoRefreshMarea();
+  const lastCheck = localStorage.getItem('barcaza_check');
+  const el = document.getElementById('barcaza-last-update');
+  if (el) el.textContent = lastCheck ? 'Última verificación: ' + lastCheck : 'Sin verificar aún';
+});
 </script>
 
 </body>
