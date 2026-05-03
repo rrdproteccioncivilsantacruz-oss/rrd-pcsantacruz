@@ -2045,7 +2045,14 @@ function mostrarModalExport(csv, texto, fecha) {
   document.body.appendChild(overlay);
 
   overlay.querySelector('#btn-exp-wsp').onclick = function() {
-    window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+    const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(texto);
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     document.body.removeChild(overlay);
   };
 
@@ -2552,7 +2559,14 @@ function compartirWsp(id) {
   const fecha = new Date(reg.fecha).toLocaleString('es-AR');
   const ubicacion = reg.lat ? `https://maps.google.com/?q=${reg.lat},${reg.lon}` : 'Sin GPS';
   const texto = `📋 *REPORTE RRD · PC SANTA CRUZ*\n*Tipo:* ${reg.tipo}\n*Responsable:* ${reg.responsable}${reg.movil ? ' · ' + reg.movil : ''}\n*Fecha:* ${fecha}${reg.lugar ? '\n*Lugar:* ' + reg.lugar : ''}\n*Ubicación:* ${ubicacion}\n*Observaciones:* ${reg.obs || '—'}`;
-  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+  const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(texto);
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function renderRegistros() {
