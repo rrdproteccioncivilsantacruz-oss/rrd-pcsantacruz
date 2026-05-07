@@ -238,7 +238,7 @@ body {
 .coord-value {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75rem;
-  color: var(--accent2);
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -284,7 +284,6 @@ body {
 
 @keyframes track-pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
-#kml-input { display: none; }
 
 /* CARDS */
 .card {
@@ -1947,7 +1946,19 @@ let trackingOn = false;
 let trackPuntos = [];
 let trackPolyline = null;
 let trackInterval = null;
-const TRACK_INTERVAL_MS = 10000; // 10 segundos
+const TRACK_INTERVAL_MS = 3000;  // 3 segundos
+const TRACK_MIN_DISTANCIA_M = 15; // mínimo 15 metros de desplazamiento para registrar punto
+
+// Haversine — distancia en metros entre dos coords
+function haversineM(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
 
 function toggleTracking() {
   const btn = document.getElementById('btn-track');
@@ -1979,6 +1990,14 @@ function toggleTracking() {
 
 function agregarPuntoTracking() {
   if (!userLat || !map) return;
+
+  // Filtrar por distancia mínima — no registrar si el operador no se movió
+  if (trackPuntos.length > 0) {
+    const ult = trackPuntos[trackPuntos.length - 1];
+    const dist = haversineM(ult.lat, ult.lon, userLat, userLon);
+    if (dist < TRACK_MIN_DISTANCIA_M) return; // quieto, no registrar
+  }
+
   const punto = { lat: userLat, lon: userLon, t: new Date().toISOString() };
   trackPuntos.push(punto);
 
