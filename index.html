@@ -230,8 +230,9 @@ body {
 .coord-label {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.6rem;
-  color: var(--muted);
+  color: var(--accent);
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .coord-value {
@@ -1295,10 +1296,8 @@ body {
         <button class="map-btn" id="btn-relieve" onclick="setLayer('relieve')">⛰️ Relieve</button>
       </div>
       <div class="map-actions-row">
-        <button class="map-btn secondary" onclick="document.getElementById('kml-input').click()">📂 KML</button>
-        <button class="map-btn primary" onclick="enviarMapa()">📤 Enviar mapa</button>
+        <button class="map-btn primary" onclick="enviarMapa()" style="width:100%">📤 Enviar mapa</button>
       </div>
-      <input type="file" id="kml-input" accept=".kml" onchange="cargarKML(event)">
     </div>
     </div>
   </div>
@@ -1948,7 +1947,7 @@ let trackingOn = false;
 let trackPuntos = [];
 let trackPolyline = null;
 let trackInterval = null;
-const TRACK_INTERVAL_MS = 60000; // 1 minuto
+const TRACK_INTERVAL_MS = 10000; // 10 segundos
 
 function toggleTracking() {
   const btn = document.getElementById('btn-track');
