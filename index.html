@@ -506,13 +506,6 @@ body {
 .status-rojo { color: var(--danger); border-color: var(--danger); background: rgba(239,68,68,0.08); }
 
 /* REGISTRO */
-.registro-btn-wrap {
-  flex-shrink: 0;
-  padding: 12px 12px 0 12px;
-  background: var(--bg);
-  z-index: 20;
-}
-
 .btn-nuevo {
   width: 100%;
   padding: 16px;
@@ -528,11 +521,15 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(249,115,22,0.35);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
-  transition: background 0.1s, transform 0.1s;
 }
 
 .btn-nuevo:active { transform: scale(0.97); background: #ea6a0a; }
@@ -1415,13 +1412,11 @@ body {
   </div>
 
   <!-- REGISTRO -->
-  <div class="panel" id="panel-registro" style="padding:0;overflow:hidden;display:none;flex-direction:column;">
-    <div class="registro-btn-wrap">
-      <button class="btn-nuevo" onclick="abrirModal()">
-        <span>📋</span> NUEVO REGISTRO
-      </button>
-    </div>
-    <div id="registros-lista" class="registros-list" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;">
+  <div class="panel" id="panel-registro">
+    <button class="btn-nuevo" onclick="abrirModal()">
+      <span>📋</span> NUEVO REGISTRO
+    </button>
+    <div id="registros-lista" class="registros-list">
       <div class="empty-state">Sin registros.<br>Tocá el botón para crear<br>tu primer operativo.</div>
     </div>
   </div>
@@ -1822,22 +1817,17 @@ body {
 // NAVEGACIÓN
 // ═══════════════════════════════════
 function showPanel(id, btn) {
-  document.querySelectorAll('.panel').forEach(p => {
-    p.classList.remove('active');
-    p.style.display = 'none';
-  });
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const panel = document.getElementById('panel-' + id);
-  panel.classList.add('active');
-  panel.style.display = 'flex';
+  document.getElementById('panel-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
   if (id === 'mapa') {
     if (!mapInited) initMap();
     else setTimeout(() => map && map.invalidateSize(), 50);
   }
   if (id === 'toolbox' && !toolboxInited) initToolbox();
-  if (id === 'clima' && !climaLoaded && navigator.onLine) fetchClima();
-  if (id === 'sismica' && !sismaLoaded && navigator.onLine) fetchSismos();
+  if (id === 'clima' && !climaLoaded) fetchClima();
+  if (id === 'sismica' && !sismaLoaded) fetchSismos();
   if (id === 'registro') renderRegistros();
 }
 
@@ -2062,7 +2052,14 @@ function mostrarModalExport(csv, texto, fecha) {
   document.body.appendChild(overlay);
 
   overlay.querySelector('#btn-exp-wsp').onclick = function() {
-    window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+    const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(texto);
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     document.body.removeChild(overlay);
   };
 
@@ -2171,7 +2168,7 @@ async function fetchClima() {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,snowfall_sum,rain_sum&hourly=apparent_temperature,wind_speed_10m,wind_gusts_10m&current=temperature_2m,wind_speed_10m,wind_gusts_10m,apparent_temperature&wind_speed_unit=kmh&timezone=America%2FArgentina%2FBuenos_Aires&forecast_days=1`;
 
-    const resp = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    const resp = await fetch(url);
     const data = await resp.json();
 
     const cur = data.current;
@@ -2261,7 +2258,7 @@ async function fetchSismos() {
 
   try {
     // USGS como fuente confiable con CORS para Argentina/Chile
-    const resp = await fetch('https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minmagnitude=2.5&minlatitude=-56&maxlatitude=-21&minlongitude=-74&maxlongitude=-53&limit=8&orderby=time', { signal: AbortSignal.timeout(8000) });
+    const resp = await fetch('https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minmagnitude=2.5&minlatitude=-56&maxlatitude=-21&minlongitude=-74&maxlongitude=-53&limit=8&orderby=time');
     const data = await resp.json();
     const quakes = data.features;
 
@@ -2320,11 +2317,10 @@ function getMovil() {
 let modalLugar = null;
 
 async function geocodificarInverso(lat, lon) {
-  if (!navigator.onLine) return '';
   try {
     const resp = await fetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=es`,
-      { headers: { 'Accept-Language': 'es' }, signal: AbortSignal.timeout(5000) }
+      { headers: { 'Accept-Language': 'es' } }
     );
     const data = await resp.json();
     const addr = data.address || {};
@@ -2359,8 +2355,7 @@ function abrirModal() {
     modalLon = userLon;
     document.getElementById('modal-coords').innerHTML =
       `📍 ${userLat.toFixed(6)}, ${userLon.toFixed(6)} · Obteniendo lugar...`;
-    // Geocodificación en background — solo si hay conexión
-    if (!navigator.onLine) return;
+    // Geocodificación en background — no bloquea la apertura del modal
     geocodificarInverso(userLat, userLon).then(lugar => {
       modalLugar = lugar;
       const el = document.getElementById('modal-coords');
@@ -2575,7 +2570,14 @@ function compartirWsp(id) {
   const fecha = new Date(reg.fecha).toLocaleString('es-AR');
   const ubicacion = reg.lat ? `https://maps.google.com/?q=${reg.lat},${reg.lon}` : 'Sin GPS';
   const texto = `📋 *REPORTE RRD · PC SANTA CRUZ*\n*Tipo:* ${reg.tipo}\n*Responsable:* ${reg.responsable}${reg.movil ? ' · ' + reg.movil : ''}\n*Fecha:* ${fecha}${reg.lugar ? '\n*Lugar:* ' + reg.lugar : ''}\n*Ubicación:* ${ubicacion}\n*Observaciones:* ${reg.obs || '—'}`;
-  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+  const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(texto);
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function renderRegistros() {
