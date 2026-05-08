@@ -230,15 +230,14 @@ body {
 .coord-label {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.6rem;
-  color: var(--accent);
+  color: var(--muted);
   text-transform: uppercase;
-  font-weight: 600;
 }
 
 .coord-value {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75rem;
-  color: var(--accent);
+  color: var(--accent2);
   font-weight: 600;
 }
 
@@ -284,6 +283,7 @@ body {
 
 @keyframes track-pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
+#kml-input { display: none; }
 
 /* CARDS */
 .card {
@@ -522,10 +522,17 @@ body {
   justify-content: center;
   gap: 10px;
   flex-shrink: 0;
-  transition: all 0.2s;
+  transition: background 0.15s, transform 0.1s;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(249,115,22,0.35);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
 
-.btn-nuevo:active { transform: scale(0.97); opacity: 0.9; }
+.btn-nuevo:active { transform: scale(0.97); background: #ea6a0a; }
 
 /* MODAL */
 .modal-overlay {
@@ -1295,8 +1302,10 @@ body {
         <button class="map-btn" id="btn-relieve" onclick="setLayer('relieve')">⛰️ Relieve</button>
       </div>
       <div class="map-actions-row">
-        <button class="map-btn primary" onclick="enviarMapa()" style="width:100%">📤 Enviar mapa</button>
+        <button class="map-btn secondary" onclick="document.getElementById('kml-input').click()">📂 KML</button>
+        <button class="map-btn primary" onclick="enviarMapa()">📤 Enviar mapa</button>
       </div>
+      <input type="file" id="kml-input" accept=".kml" onchange="cargarKML(event)">
     </div>
     </div>
   </div>
@@ -1316,7 +1325,7 @@ body {
     </div>
 
     <!-- BOLETÍN PROVINCIAL -->
-    <button class="btn-boletin" onclick="window.open('https://rrdproteccioncivilsantacruz-oss.github.io/rrd-pcsantacruz/boletin.html', '_blank')">
+    <button class="btn-boletin" onclick="window.open('boletin.html', '_blank')">
       <span>🗺️</span> BOLETÍN METEOROLÓGICO PROVINCIAL
     </button>
 
@@ -1946,19 +1955,7 @@ let trackingOn = false;
 let trackPuntos = [];
 let trackPolyline = null;
 let trackInterval = null;
-const TRACK_INTERVAL_MS = 3000;  // 3 segundos
-const TRACK_MIN_DISTANCIA_M = 15; // mínimo 15 metros de desplazamiento para registrar punto
-
-// Haversine — distancia en metros entre dos coords
-function haversineM(lat1, lon1, lat2, lon2) {
-  const R = 6371000;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
+const TRACK_INTERVAL_MS = 60000; // 1 minuto
 
 function toggleTracking() {
   const btn = document.getElementById('btn-track');
@@ -1990,14 +1987,6 @@ function toggleTracking() {
 
 function agregarPuntoTracking() {
   if (!userLat || !map) return;
-
-  // Filtrar por distancia mínima — no registrar si el operador no se movió
-  if (trackPuntos.length > 0) {
-    const ult = trackPuntos[trackPuntos.length - 1];
-    const dist = haversineM(ult.lat, ult.lon, userLat, userLon);
-    if (dist < TRACK_MIN_DISTANCIA_M) return; // quieto, no registrar
-  }
-
   const punto = { lat: userLat, lon: userLon, t: new Date().toISOString() };
   trackPuntos.push(punto);
 
@@ -2063,14 +2052,7 @@ function mostrarModalExport(csv, texto, fecha) {
   document.body.appendChild(overlay);
 
   overlay.querySelector('#btn-exp-wsp').onclick = function() {
-    const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(texto);
-    const a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
     document.body.removeChild(overlay);
   };
 
@@ -2346,7 +2328,8 @@ async function geocodificarInverso(lat, lon) {
   }
 }
 
-async function abrirModal() {
+function abrirModal() {
+  // Abrir instantáneo — sin async bloqueante
   document.getElementById('modal-overlay').classList.add('open');
   document.getElementById('reg-tipo').value = '';
   document.getElementById('reg-obs').value = '';
@@ -2365,10 +2348,13 @@ async function abrirModal() {
     modalLon = userLon;
     document.getElementById('modal-coords').innerHTML =
       `📍 ${userLat.toFixed(6)}, ${userLon.toFixed(6)} · Obteniendo lugar...`;
-    const lugar = await geocodificarInverso(userLat, userLon);
-    modalLugar = lugar;
-    document.getElementById('modal-coords').innerHTML =
-      `📍 ${lugar ? lugar + '<br>' : ''}${userLat.toFixed(6)}, ${userLon.toFixed(6)}`;
+    // Geocodificación en background — no bloquea la apertura del modal
+    geocodificarInverso(userLat, userLon).then(lugar => {
+      modalLugar = lugar;
+      const el = document.getElementById('modal-coords');
+      if (el) el.innerHTML =
+        `📍 ${lugar ? lugar + '<br>' : ''}${userLat.toFixed(6)}, ${userLon.toFixed(6)}`;
+    }).catch(() => {});
   } else {
     modalLat = null; modalLon = null;
     document.getElementById('modal-coords').innerHTML = '📍 GPS no disponible';
@@ -2577,14 +2563,7 @@ function compartirWsp(id) {
   const fecha = new Date(reg.fecha).toLocaleString('es-AR');
   const ubicacion = reg.lat ? `https://maps.google.com/?q=${reg.lat},${reg.lon}` : 'Sin GPS';
   const texto = `📋 *REPORTE RRD · PC SANTA CRUZ*\n*Tipo:* ${reg.tipo}\n*Responsable:* ${reg.responsable}${reg.movil ? ' · ' + reg.movil : ''}\n*Fecha:* ${fecha}${reg.lugar ? '\n*Lugar:* ' + reg.lugar : ''}\n*Ubicación:* ${ubicacion}\n*Observaciones:* ${reg.obs || '—'}`;
-  const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(texto);
-  const a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
 }
 
 function renderRegistros() {
