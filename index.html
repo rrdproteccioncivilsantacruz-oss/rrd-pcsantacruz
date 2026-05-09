@@ -136,7 +136,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 4px 8px;
+  padding: 8px 2px 6px;
   gap: 3px;
   border: none;
   background: transparent;
@@ -144,7 +144,7 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.52rem;
+  font-size: 0.46rem;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   border-top: 2px solid transparent;
@@ -152,7 +152,7 @@ body {
   user-select: none;
 }
 
-.nav-btn .icon { font-size: 1.3rem; line-height: 1; }
+.nav-btn .icon { font-size: 1.1rem; line-height: 1; }
 .nav-btn:active { opacity: 0.7; transform: scale(0.95); }
 .nav-btn.active { color: var(--accent); border-top-color: var(--accent); }
 
@@ -1250,6 +1250,81 @@ body {
 /* Spinner */
 @keyframes spin { to { transform: rotate(360deg); } }
 .marea-spinner { display: inline-block; animation: spin 1.5s linear infinite; }
+
+/* ═══ MODAL STICKY FOOTER ═══ */
+.modal { background:var(--surface); border:1px solid var(--border); border-radius:20px 20px 0 0; width:100%; max-height:92vh; display:flex; flex-direction:column; overflow:hidden; }
+.modal-body { padding:20px 20px 12px; display:flex; flex-direction:column; gap:14px; overflow-y:auto; -webkit-overflow-scrolling:touch; flex:1; }
+.modal-actions { display:flex; gap:10px; padding:14px 20px; background:var(--surface); border-top:1px solid var(--border); flex-shrink:0; }
+
+/* ═══ FOTO CHIP ═══ */
+.foto-chip { display:none; align-items:center; gap:10px; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 10px; margin-top:8px; }
+.foto-chip.visible { display:flex; }
+.foto-chip-thumb { width:48px; height:48px; border-radius:7px; object-fit:cover; flex-shrink:0; border:1px solid var(--border); }
+.foto-chip-info { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.foto-chip-nombre { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.foto-chip-meta { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; color:var(--muted); }
+.foto-chip-remove { background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); border-radius:7px; color:#ef4444; font-size:0.75rem; padding:5px 9px; cursor:pointer; flex-shrink:0; }
+
+/* ═══ REGISTRO FOTO ═══ */
+.registro-foto { width:100%; max-height:180px; object-fit:cover; border-radius:8px; display:block; cursor:pointer; transition:max-height 0.3s; }
+.registro-foto.expandida { max-height:60vh; object-fit:contain; background:rgba(0,0,0,0.4); }
+
+/* ═══ NAV 7 BOTONES ═══ */
+
+/* ═══ MÓDULOS DE CAMPO ═══ */
+.campo-section { background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+.campo-header { padding:13px 16px; display:flex; align-items:center; justify-content:space-between; background:var(--card2,var(--card)); cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent; }
+.campo-header:active { opacity:0.8; }
+.campo-header-left { display:flex; align-items:center; gap:10px; }
+.campo-icon { font-size:1.1rem; }
+.campo-title { font-family:'Bebas Neue',cursive; font-size:0.95rem; letter-spacing:2px; color:var(--accent); }
+.campo-chevron { font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted); transition:transform 0.25s; }
+.campo-section.open .campo-chevron { transform:rotate(180deg); }
+.campo-body { display:none; padding:14px; flex-direction:column; gap:10px; }
+.campo-section.open .campo-body { display:flex; }
+
+/* ═══ QUICK CARDS ═══ */
+.quick-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:5px; }
+.quick-card-title { font-family:'IBM Plex Mono',monospace; font-size:0.68rem; font-weight:600; color:var(--accent2); text-transform:uppercase; letter-spacing:0.5px; }
+.quick-card-steps { list-style:none; padding:0; margin:4px 0 0; display:flex; flex-direction:column; gap:4px; }
+.quick-card-steps li { font-size:0.78rem; color:var(--text); line-height:1.4; padding-left:14px; position:relative; }
+.quick-card-steps li::before { content:attr(data-n); position:absolute; left:0; color:var(--accent); font-family:'IBM Plex Mono',monospace; font-size:0.65rem; font-weight:700; top:1px; }
+
+/* ═══ AGENDA ═══ */
+.agenda-list { display:flex; flex-direction:column; gap:6px; }
+.contacto-item { background:var(--surface); border:1px solid var(--border); border-radius:10px; display:flex; align-items:center; gap:10px; padding:9px 12px; text-decoration:none; }
+.contacto-item:active { opacity:0.75; border-color:var(--accent3); }
+.contacto-emoji { font-size:1.1rem; flex-shrink:0; }
+.contacto-info { flex:1; min-width:0; }
+.contacto-nombre { font-family:'IBM Plex Mono',monospace; font-size:0.72rem; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.contacto-numero { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--accent2); margin-top:1px; }
+.contacto-call { background:rgba(74,222,128,0.15); border:1px solid rgba(74,222,128,0.3); border-radius:7px; color:var(--accent3); font-size:0.8rem; padding:6px 10px; flex-shrink:0; }
+.contacto-del { background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.25); border-radius:7px; color:#ef4444; font-size:0.72rem; padding:5px 8px; cursor:pointer; flex-shrink:0; }
+.agenda-add-form { display:none; flex-direction:column; gap:8px; padding:12px; background:var(--card); border:1px solid var(--border); border-radius:10px; margin-top:4px; }
+.agenda-add-form.visible { display:flex; }
+.btn-agenda-add { padding:9px 14px; background:rgba(249,115,22,0.15); border:1px solid rgba(249,115,22,0.4); border-radius:9px; color:var(--accent); font-family:'IBM Plex Mono',monospace; font-size:0.72rem; font-weight:600; cursor:pointer; width:100%; }
+.btn-agenda-save { padding:9px; background:var(--accent3); border:none; border-radius:9px; color:#0a0e14; font-family:'Bebas Neue',cursive; font-size:0.95rem; letter-spacing:1.5px; cursor:pointer; flex:1; }
+.btn-agenda-cancel { padding:9px; background:transparent; border:1px solid var(--border); border-radius:9px; color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:0.7rem; cursor:pointer; }
+
+/* ═══ BOTONES PDF ═══ */
+.pdf-btn { display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:14px 16px; cursor:pointer; width:100%; text-align:left; transition:border-color 0.2s, background 0.2s; -webkit-tap-highlight-color:transparent; }
+.pdf-btn:active { opacity:0.75; }
+.pdf-btn-icon { font-size:1.6rem; flex-shrink:0; }
+.pdf-btn-info { flex:1; min-width:0; }
+.pdf-btn-title { font-family:'Bebas Neue',cursive; font-size:1rem; letter-spacing:2px; color:var(--text); }
+.pdf-btn-sub { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--muted); margin-top:2px; }
+.pdf-btn-arrow { font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--accent3); white-space:nowrap; flex-shrink:0; }
+.pdf-btn.naranja { border-color:rgba(249,115,22,0.35); }
+.pdf-btn.naranja .pdf-btn-title { color:#F97316; }
+.pdf-btn.azul { border-color:rgba(59,130,246,0.35); }
+.pdf-btn.azul .pdf-btn-title { color:#60A5FA; }
+.pdf-btn.verde { border-color:rgba(34,197,94,0.35); }
+.pdf-btn.verde .pdf-btn-title { color:#4ADE80; }
+.pdf-btn.rojo { border-color:rgba(239,68,68,0.35); }
+.pdf-btn.rojo .pdf-btn-title { color:#F87171; }
+.pdf-btn.gris { border-color:rgba(100,116,139,0.35); }
+.pdf-btn.gris .pdf-btn-title { color:#94a3b8; }
+
 </style>
 </head>
 <body>
@@ -1417,6 +1492,76 @@ body {
     </div>
   </div>
 
+  <!-- ═══ PANEL MANUAL ═══ -->
+  <div class="panel" id="panel-guias">
+
+    <!-- Agenda -->
+    <div class="campo-section" id="sec-agenda">
+      <div class="campo-header" onclick="toggleCampo('sec-agenda')">
+        <div class="campo-header-left"><span class="campo-icon">📞</span><span class="campo-title">Agenda de Emergencias</span></div>
+        <span class="campo-chevron">▼</span>
+      </div>
+      <div class="campo-body">
+        <div class="agenda-list" id="agenda-lista"></div>
+        <button class="btn-agenda-add" onclick="toggleAgendaForm()">＋ Agregar contacto</button>
+        <div class="agenda-add-form" id="agenda-form">
+          <input class="form-input" id="agenda-nombre" type="text" placeholder="Nombre del contacto..." autocomplete="off">
+          <input class="form-input" id="agenda-numero" type="tel" placeholder="Número (ej: 2966123456)..." autocomplete="off">
+          <div style="display:flex;gap:8px;">
+            <button class="btn-agenda-cancel" onclick="toggleAgendaForm()">Cancelar</button>
+            <button class="btn-agenda-save" onclick="guardarContacto()">GUARDAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PDFs -->
+    <button class="pdf-btn rojo" onclick="window.open('Manual_Asistencia_Vital_Rojo.pdf','_blank')">
+      <span class="pdf-btn-icon">🔴</span>
+      <div class="pdf-btn-info">
+        <div class="pdf-btn-title">Asistencia Vital</div>
+        <div class="pdf-btn-sub">RCP · Heimlich · Hemorragias · Torniquete</div>
+      </div>
+      <span class="pdf-btn-arrow">📄 ↗</span>
+    </button>
+
+    <button class="pdf-btn naranja" onclick="window.open('Manual_Naranja_V2.pdf','_blank')">
+      <span class="pdf-btn-icon">🟠</span>
+      <div class="pdf-btn-info">
+        <div class="pdf-btn-title">Gestión de Desastres</div>
+        <div class="pdf-btn-sub">Seguridad estructural · Mochila 72h · Sismos</div>
+      </div>
+      <span class="pdf-btn-arrow">📄 ↗</span>
+    </button>
+
+    <button class="pdf-btn verde" onclick="window.open('Manual_Vida_Silvestre_Verde.pdf','_blank')">
+      <span class="pdf-btn-icon">🟢</span>
+      <div class="pdf-btn-info">
+        <div class="pdf-btn-title">Vida Silvestre</div>
+        <div class="pdf-btn-sub">Refugio A-Frame · Fogata Tipi · Campo</div>
+      </div>
+      <span class="pdf-btn-arrow">📄 ↗</span>
+    </button>
+
+    <button class="pdf-btn azul" onclick="window.open('Manual_Navegacion_Azul.pdf','_blank')">
+      <span class="pdf-btn-icon">🔵</span>
+      <div class="pdf-btn-info">
+        <div class="pdf-btn-title">Manual de Navegación</div>
+        <div class="pdf-btn-sub">Orientación solar · Cruz del Sur · Reloj</div>
+      </div>
+      <span class="pdf-btn-arrow">📄 ↗</span>
+    </button>
+
+    <button class="pdf-btn gris" onclick="window.open('manual_pc_operativo.pdf','_blank')">
+      <div class="pdf-btn-info">
+        <div class="pdf-btn-title">Manual de la App</div>
+        <div class="pdf-btn-sub">Guía completa · PC Operativo · SIGAED</div>
+      </div>
+      <span class="pdf-btn-arrow">📄 ↗</span>
+    </button>
+
+  </div>
+
 </div>
 
 <!-- NAV -->
@@ -1437,7 +1582,10 @@ body {
     <span class="icon">🛠️</span>TOOLS
   </button>
   <button class="nav-btn" onclick="showPanel('rutas', this)">
-    <span class="icon">🛣️</span>RUTAS
+    <span class="icon">🌊</span>MAREAS
+  </button>
+  <button class="nav-btn" onclick="showPanel('guias', this)">
+    <span class="icon">📁</span>DOCS
   </button>
 </nav>
 
@@ -1740,65 +1888,66 @@ body {
 <!-- MODAL NUEVO REGISTRO -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
-    <div class="modal-title">📋 Nuevo Registro</div>
-    <div class="modal-coords" id="modal-coords">📍 Obteniendo ubicación...</div>
-
-    <div class="form-group">
-      <label class="form-label">Tipo de Operativo</label>
-      <select class="form-select" id="reg-tipo">
-        <option value="">Seleccionar...</option>
-        <option value="Accidente vial">Accidente vial</option>
-        <option value="Búsqueda y rescate">Búsqueda y rescate</option>
-        <option value="Preventiva">Preventiva</option>
-        <option value="Relevamiento">Relevamiento</option>
-        <option value="Mapeo de riesgo">Mapeo de riesgo</option>
-        <option value="Emergencia climática">Emergencia climática</option>
-        <option value="Incendio">Incendio</option>
-        <option value="Otro">Otro</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Responsable</label>
-      <input class="form-input" id="reg-responsable" type="text" placeholder="Nombre del responsable..." autocomplete="off">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Móvil</label>
-      <select class="form-select" id="reg-movil" onchange="toggleMovilOtro(this.value)">
-        <option value="">Sin móvil asignado</option>
-        <option value="Móvil 1">Móvil 1</option>
-        <option value="Móvil 2">Móvil 2</option>
-        <option value="Móvil 5">Móvil 5</option>
-        <option value="Móvil 6">Móvil 6</option>
-        <option value="Cuatriciclo">Cuatriciclo</option>
-        <option value="__otro__">Otro...</option>
-      </select>
-      <input class="form-input" id="reg-movil-otro" type="text" placeholder="Especificar móvil o medio..." autocomplete="off" style="display:none;margin-top:8px">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Observaciones</label>
-      <textarea class="form-textarea" id="reg-obs" placeholder="Descripción del operativo..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Foto</label>
-      <div style="display:flex;gap:8px;">
-        <div class="foto-area" style="flex:1" onclick="document.getElementById('foto-camara').click()">
-          <div class="foto-icon">📷</div>
-          <div class="foto-text">Cámara</div>
+    <div class="modal-body">
+      <div class="modal-title">📋 Nuevo Registro</div>
+      <div class="modal-coords" id="modal-coords">📍 Obteniendo ubicación...</div>
+      <div class="form-group">
+        <label class="form-label">Tipo de Operativo</label>
+        <select class="form-select" id="reg-tipo">
+          <option value="">Seleccionar...</option>
+          <option value="Accidente vial">Accidente vial</option>
+          <option value="Búsqueda y rescate">Búsqueda y rescate</option>
+          <option value="Preventiva">Preventiva</option>
+          <option value="Relevamiento">Relevamiento</option>
+          <option value="Mapeo de riesgo">Mapeo de riesgo</option>
+          <option value="Emergencia climática">Emergencia climática</option>
+          <option value="Incendio">Incendio</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Responsable</label>
+        <input class="form-input" id="reg-responsable" type="text" placeholder="Nombre del responsable..." autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Móvil</label>
+        <select class="form-select" id="reg-movil" onchange="toggleMovilOtro(this.value)">
+          <option value="">Sin móvil asignado</option>
+          <option value="Móvil 1">Móvil 1</option>
+          <option value="Móvil 2">Móvil 2</option>
+          <option value="Móvil 5">Móvil 5</option>
+          <option value="Móvil 6">Móvil 6</option>
+          <option value="Cuatriciclo">Cuatriciclo</option>
+          <option value="__otro__">Otro...</option>
+        </select>
+        <input class="form-input" id="reg-movil-otro" type="text" placeholder="Especificar móvil o medio..." autocomplete="off" style="display:none;margin-top:8px">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Observaciones</label>
+        <textarea class="form-textarea" id="reg-obs" placeholder="Descripción del operativo..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Foto</label>
+        <div style="display:flex;gap:8px;">
+          <div class="foto-area" style="flex:1" onclick="document.getElementById('foto-camara').click()">
+            <div class="foto-icon">📷</div><div class="foto-text">Cámara</div>
+          </div>
+          <div class="foto-area" style="flex:1" onclick="document.getElementById('foto-galeria').click()">
+            <div class="foto-icon">🖼️</div><div class="foto-text">Galería</div>
+          </div>
         </div>
-        <div class="foto-area" style="flex:1" onclick="document.getElementById('foto-galeria').click()">
-          <div class="foto-icon">🖼️</div>
-          <div class="foto-text">Galería</div>
+        <input type="file" id="foto-camara" accept="image/*" capture="environment" onchange="previewFoto(event)" style="display:none">
+        <input type="file" id="foto-galeria" accept="image/*" onchange="previewFoto(event)" style="display:none">
+        <div class="foto-chip" id="foto-chip">
+          <img class="foto-chip-thumb" id="foto-chip-thumb" src="" alt="">
+          <div class="foto-chip-info">
+            <span class="foto-chip-nombre" id="foto-chip-nombre"></span>
+            <span class="foto-chip-meta" id="foto-chip-meta"></span>
+          </div>
+          <button class="foto-chip-remove" onclick="removeFoto()">✕</button>
         </div>
       </div>
-      <input type="file" id="foto-camara" accept="image/*" capture="environment" onchange="previewFoto(event)" style="display:none">
-      <input type="file" id="foto-galeria" accept="image/*" onchange="previewFoto(event)" style="display:none">
-      <img id="foto-preview" alt="Vista previa">
     </div>
-
     <div class="modal-actions">
       <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
       <button class="btn-guardar" onclick="guardarRegistro()">GUARDAR</button>
@@ -1830,6 +1979,7 @@ function showPanel(id, btn) {
   if (id === 'clima' && !climaLoaded && navigator.onLine) fetchClima();
   if (id === 'sismica' && !sismaLoaded && navigator.onLine) fetchSismos();
   if (id === 'registro') renderRegistros();
+  if (id === 'guias') renderAgenda();
 }
 
 // ═══════════════════════════════════
@@ -2364,7 +2514,8 @@ function abrirModal() {
   document.getElementById('reg-movil').value = '';
   document.getElementById('reg-movil-otro').style.display = 'none';
   document.getElementById('reg-movil-otro').value = '';
-  document.getElementById('foto-preview').style.display = 'none';
+  const chip = document.getElementById('foto-chip');
+  if (chip) chip.classList.remove('visible');
   document.getElementById('foto-camara').value = '';
   document.getElementById('foto-galeria').value = '';
   fotoDataUrl = null;
@@ -2398,11 +2549,22 @@ function previewFoto(event) {
   const reader = new FileReader();
   reader.onload = e => {
     fotoDataUrl = e.target.result;
-    const img = document.getElementById('foto-preview');
-    img.src = fotoDataUrl;
-    img.style.display = 'block';
+    document.getElementById('foto-chip-thumb').src = fotoDataUrl;
+    const nombre = file.name.length > 28 ? file.name.substring(0,25)+'…' : file.name;
+    document.getElementById('foto-chip-nombre').textContent = nombre;
+    const kb = (file.size/1024).toFixed(0);
+    document.getElementById('foto-chip-meta').textContent = kb > 999 ? (kb/1024).toFixed(1)+' MB' : kb+' KB';
+    document.getElementById('foto-chip').classList.add('visible');
   };
   reader.readAsDataURL(file);
+}
+
+function removeFoto() {
+  fotoDataUrl = null;
+  document.getElementById('foto-chip').classList.remove('visible');
+  document.getElementById('foto-chip-thumb').src = '';
+  document.getElementById('foto-camara').value = '';
+  document.getElementById('foto-galeria').value = '';
 }
 
 function guardarRegistro() {
@@ -2614,7 +2776,7 @@ function renderRegistros() {
     });
     const coordStr = reg.lat ? `${reg.lat.toFixed(5)}, ${reg.lon.toFixed(5)}` : 'Sin GPS';
     const lugarStr = reg.lugar ? `<div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--accent2);margin-bottom:2px;">📍 ${reg.lugar}</div>` : '';
-    const fotoHTML = reg.foto ? `<img src="${reg.foto}" class="registro-foto" alt="foto">` : '';
+    const fotoHTML = reg.foto ? `<div style="position:relative;border-radius:8px;overflow:hidden;margin-top:4px"><img src="${reg.foto}" class="registro-foto" onclick="this.classList.toggle('expandida')"></div>` : '';
 
     return `
       <div class="registro-item">
@@ -3365,6 +3527,66 @@ window.addEventListener('load', () => {
   const el = document.getElementById('barcaza-last-update');
   if (el) el.textContent = lastCheck ? 'Última verificación: ' + lastCheck : 'Sin verificar aún';
 });
+
+// ═══ MÓDULOS CAMPO ═══
+function toggleCampo(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+const CONTACTOS_FIJOS = [
+  { nombre:'Protección Civil Santa Cruz', numero:'103' },
+  { nombre:'Policía', numero:'911' },
+  { nombre:'Hospital / Emergencias Médicas', numero:'107' },
+  { nombre:'Bomberos Voluntarios', numero:'100' },
+];
+let contactosCustom = JSON.parse(localStorage.getItem('rrd_contactos')||'[]');
+
+function renderAgenda() {
+  const el = document.getElementById('agenda-lista');
+  if (!el) return;
+  const todos = [
+    ...CONTACTOS_FIJOS.map(c=>({...c,custom:false})),
+    ...contactosCustom.map((c,i)=>({...c,custom:true,idx:i}))
+  ];
+  el.innerHTML = todos.map(c=>`
+    <a class="contacto-item" href="tel:${c.numero}">
+      <div class="contacto-info">
+        <div class="contacto-nombre">${c.nombre}</div>
+        <div class="contacto-numero">${c.numero}</div>
+      </div>
+      <span class="contacto-call">📞 Llamar</span>
+      ${c.custom?`<button class="contacto-del" onclick="eliminarContacto(event,${c.idx})">✕</button>`:''}
+    </a>`).join('');
+}
+
+function toggleAgendaForm() {
+  const f = document.getElementById('agenda-form');
+  f.classList.toggle('visible');
+  if (f.classList.contains('visible')) {
+    document.getElementById('agenda-nombre').value='';
+    document.getElementById('agenda-numero').value='';
+  }
+}
+
+function guardarContacto() {
+  const nombre = document.getElementById('agenda-nombre').value.trim();
+  const numero = document.getElementById('agenda-numero').value.trim().replace(/\s/g,'');
+  if (!nombre) { alert('Ingresá el nombre.'); return; }
+  if (!numero) { alert('Ingresá el número.'); return; }
+  contactosCustom.push({emoji:'👤',nombre,numero});
+  localStorage.setItem('rrd_contactos',JSON.stringify(contactosCustom));
+  toggleAgendaForm();
+  renderAgenda();
+}
+
+function eliminarContacto(e,idx) {
+  e.preventDefault(); e.stopPropagation();
+  if (!confirm('¿Eliminar este contacto?')) return;
+  contactosCustom.splice(idx,1);
+  localStorage.setItem('rrd_contactos',JSON.stringify(contactosCustom));
+  renderAgenda();
+}
+
 </script>
 
 </body>
