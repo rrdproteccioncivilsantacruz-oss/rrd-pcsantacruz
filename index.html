@@ -606,12 +606,15 @@ body {
 .form-textarea { min-height: 80px; resize: none; }
 
 .foto-area {
+  display: block;
   border: 2px dashed var(--border);
   border-radius: 12px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
+  -webkit-tap-highlight-color: rgba(249,115,22,0.2);
+  user-select: none;
 }
 
 .foto-area:active { border-color: var(--accent2); }
@@ -1929,15 +1932,15 @@ body {
       <div class="form-group">
         <label class="form-label">Foto</label>
         <div style="display:flex;gap:8px;">
-          <div class="foto-area" style="flex:1" onclick="document.getElementById('foto-camara').click()">
+          <label for="foto-camara" class="foto-area" style="flex:1">
             <div class="foto-icon">📷</div><div class="foto-text">Cámara</div>
-          </div>
-          <div class="foto-area" style="flex:1" onclick="document.getElementById('foto-galeria').click()">
+          </label>
+          <label for="foto-galeria" class="foto-area" style="flex:1">
             <div class="foto-icon">🖼️</div><div class="foto-text">Galería</div>
-          </div>
+          </label>
         </div>
-        <input type="file" id="foto-camara" accept="image/*" capture="environment" onchange="previewFoto(event)" style="display:none">
-        <input type="file" id="foto-galeria" accept="image/*" onchange="previewFoto(event)" style="display:none">
+        <input type="file" id="foto-camara" accept="image/*" capture="environment" onchange="previewFoto(event)" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <input type="file" id="foto-galeria" accept="image/*" onchange="previewFoto(event)" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="foto-chip" id="foto-chip">
           <img class="foto-chip-thumb" id="foto-chip-thumb" src="" alt="">
           <div class="foto-chip-info">
@@ -2543,20 +2546,75 @@ function cerrarModal() {
   document.getElementById('modal-overlay').classList.remove('open');
 }
 
-function previewFoto(event) {
-  const file = event.target.files[0];
+// Configuración compresión foto — PWA Android safe
+const FOTO_CFG = { maxDim: 1280, calidad: 0.72, formato: 'image/jpeg', maxBytesLS: 800000 };
+
+function _comprimirImagen(file, cfg) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo'));
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('No se pudo decodificar la imagen'));
+      img.onload = () => {
+        try {
+          let { width, height } = img;
+          if (width > cfg.maxDim || height > cfg.maxDim) {
+            if (width >= height) { height = Math.round(height * (cfg.maxDim / width)); width = cfg.maxDim; }
+            else { width = Math.round(width * (cfg.maxDim / height)); height = cfg.maxDim; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL(cfg.formato, cfg.calidad);
+          if (!dataUrl || dataUrl === 'data:,') { reject(new Error('Canvas vacío (memoria insuficiente)')); return; }
+          resolve(dataUrl);
+        } catch (err) { reject(err); }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function previewFoto(event) {
+  const input = event.target;
+  const file = input.files && input.files[0];
+  // FIX Android: limpiar value para permitir re-seleccionar misma foto
+  setTimeout(() => { input.value = ''; }, 100);
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    fotoDataUrl = e.target.result;
-    document.getElementById('foto-chip-thumb').src = fotoDataUrl;
+
+  if (!file.type.startsWith('image/')) { alert('El archivo no es una imagen válida.'); return; }
+  if (file.size > 30 * 1024 * 1024) { alert('Imagen demasiado grande (>30MB).'); return; }
+
+  // Feedback visual de procesamiento
+  const chipNombre = document.getElementById('foto-chip-nombre');
+  const chipMeta = document.getElementById('foto-chip-meta');
+  document.getElementById('foto-chip').classList.add('visible');
+  chipNombre.textContent = 'Procesando...';
+  chipMeta.textContent = '';
+
+  try {
+    let dataUrl = await _comprimirImagen(file, FOTO_CFG);
+    // Segunda pasada si supera el cap de localStorage
+    if (dataUrl.length > FOTO_CFG.maxBytesLS) {
+      dataUrl = await _comprimirImagen(file, { ...FOTO_CFG, maxDim: 960, calidad: 0.55 });
+    }
+    fotoDataUrl = dataUrl;
+    document.getElementById('foto-chip-thumb').src = dataUrl;
     const nombre = file.name.length > 28 ? file.name.substring(0,25)+'…' : file.name;
-    document.getElementById('foto-chip-nombre').textContent = nombre;
-    const kb = (file.size/1024).toFixed(0);
-    document.getElementById('foto-chip-meta').textContent = kb > 999 ? (kb/1024).toFixed(1)+' MB' : kb+' KB';
-    document.getElementById('foto-chip').classList.add('visible');
-  };
-  reader.readAsDataURL(file);
+    chipNombre.textContent = nombre;
+    const kb = Math.round(dataUrl.length / 1024);
+    chipMeta.textContent = kb > 999 ? (kb/1024).toFixed(1)+' MB' : kb+' KB';
+  } catch (err) {
+    console.error('[previewFoto]', err);
+    alert('Error procesando la imagen: ' + err.message);
+    fotoDataUrl = null;
+    document.getElementById('foto-chip').classList.remove('visible');
+  }
 }
 
 function removeFoto() {
@@ -2587,7 +2645,19 @@ function guardarRegistro() {
   };
 
   registros.unshift(reg);
-  localStorage.setItem('rrd_registros', JSON.stringify(registros));
+  try {
+    localStorage.setItem('rrd_registros', JSON.stringify(registros));
+  } catch (err) {
+    // Rollback y aviso al usuario si se llenó el storage
+    registros.shift();
+    if (err.name === 'QuotaExceededError' || err.code === 22 || err.code === 1014) {
+      alert('Almacenamiento lleno.\n\nLa foto es demasiado grande o tenés muchos registros guardados. Exportá registros viejos (PDF) y eliminálos para liberar espacio.');
+    } else {
+      alert('Error guardando el registro: ' + err.message);
+    }
+    console.error('[guardarRegistro]', err);
+    return;
+  }
   cerrarModal();
   renderRegistros();
 }
